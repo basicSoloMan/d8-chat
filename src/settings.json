@@ -1,0 +1,8 @@
+{
+  "server": {
+    "address": "localhost:8080",
+    "write_timeout": 30,
+    "read_timeout": 10,
+    "idle_timeout": 60
+  }
+}

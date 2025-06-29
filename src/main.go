@@ -2,26 +2,28 @@
 
 import (
 	"github.com/basicSoloMan/d8-chat/src/api"
+	"github.com/basicSoloMan/d8-chat/src/config"
 	"log"
 	"net/http"
-	"time"
 )
 
 func main() {
 	router := api.Mount()
 
-	srv := &http.Server{
-		Addr:         "localhost:8080",
-		Handler:      router,
-		WriteTimeout: time.Second * 30,
-		ReadTimeout:  time.Second * 10,
-		IdleTimeout:  time.Minute,
-	}
-
-	log.Printf("Server listening on %s", "localhost:8080")
-
-	err := srv.ListenAndServe()
+	cfg, err := config.Load()
 	if err != nil {
-		return
+		log.Fatalf("failed to load config: %v", err)
 	}
+
+	srv := &http.Server{
+		Addr:         cfg.Server.Address,
+		Handler:      router,
+		WriteTimeout: cfg.Server.WriteTimeout,
+		ReadTimeout:  cfg.Server.ReadTimeout,
+		IdleTimeout:  cfg.Server.IdleTimeout,
+	}
+
+	log.Printf("Server listening on %s", cfg.Server.Address)
+
+	log.Fatalln(srv.ListenAndServe())
 }
