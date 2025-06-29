@@ -1,14 +1,13 @@
-﻿package main
+﻿package handlers
 
 import (
 	"log"
 	"net/http"
 )
 
-func (app *application) helloWorld(w http.ResponseWriter, r *http.Request) {
+func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	data := map[string]string{
-		"status":  "ok",
-		"version": version,
+		"status": "Hello World",
 	}
 
 	if err := writeJSON(w, http.StatusOK, data); err != nil {
